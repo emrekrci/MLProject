@@ -7,7 +7,7 @@ namespace MLProject.ConsoleApp
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello Core");
+            Console.WriteLine("Hello Worl Example for ML Project. ");
         }
     }
 }
