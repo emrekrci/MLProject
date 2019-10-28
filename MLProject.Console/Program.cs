@@ -50,26 +50,26 @@ namespace MLProject.ConsoleApp
             var model = pipeline.Fit(data);
             Console.WriteLine("Training was completed");
 
-            Thread.Sleep(10000);
+        
 
             var engine = mlContext.Model.CreatePredictionEngine<ImageNetData, ImageNetPrediction>(model);
 
             var labels = File.ReadAllLines(@"C:\Users\Emrek\source\repos\MLProject\MLProject.Console\models\imagenet_comp_graph_label_strings");
             Console.WriteLine("Predicting....");
             var images = ImageNetData.ReadFromCsv(@"C:\Users\Emrek\source\repos\MLProject\MLProject.Console\images\tags.tsv");
-            var prediction = engine.Predict(images.Last()).PredictedLabels;
-            //foreach (var image in images)
-            //{
-            //    Console.WriteLine($"[{image.ImagePath}]:");
-            //    float[] prediction = engine.Predict(image).PredictedLabels;
+            
+            foreach (var image in images)
+            {
+                Console.WriteLine($"[{image.ImagePath}]:");
+                float[] prediction = engine.Predict(image).PredictedLabels;
 
-            //    var i = 0;
-            //    var best = (from p in prediction
-            //                select new { Index = i++, Prediction = p }).OrderByDescending(p => p.Prediction).First();
-            //    var predictedLabel = labels[best.Index];
+                var i = 0;
+                var best = (from p in prediction
+                            select new { Index = i++, Prediction = p }).OrderByDescending(p => p.Prediction).First();
+                var predictedLabel = labels[best.Index];
 
-            //    Console.WriteLine($"{predictedLabel} {(predictedLabel != image.Label ? "***WRONG***" : "")}");
-            //}
+                Console.WriteLine($"{predictedLabel} {(predictedLabel != image.Label ? "***WRONG***" : "")}");
+            }
 
         }
     }
